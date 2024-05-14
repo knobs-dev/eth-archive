@@ -1,0 +1,1 @@
+--server-addr 0.0.0.0:8080 --data-path ./data/parquet --db-path ./data/db --request-timeout-secs 300 --connect-timeout-ms 1000 --block-batch-size 10 --http-req-concurrency 200 --best-block-offset 10 --rpc-urls https://rpc.ankr.com/eth --initial-hot-block-range 1 --max-resp-body-size 30 --resp-time-limit 5000

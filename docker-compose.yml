@@ -1,0 +1,36 @@
+
+version: '3.8'
+
+services:
+  ingester:
+    build: 
+      context: .
+      args:
+        - component=ingester
+    environment:
+      - RUST_LOG=debug,aws_config=off,hyper=off,h2=off
+    volumes:
+      - type: volume
+        source: parquet-data 
+        target: /eth/data/parquet
+  worker:
+    depends_on:
+      - ingester
+    build: 
+      context: .
+      args:
+        - component=worker  
+    ports:
+      - "8080:8080"
+    environment:
+      - RAYON_NUM_THREADS=16
+      - RUST_LOG=info,aws_config=off
+    volumes:
+      - type: volume
+        source: parquet-data  
+        target: /eth/data/parquet
+      - worker-db:/eth/data/db 
+
+volumes:
+  parquet-data: 
+  worker-db:    

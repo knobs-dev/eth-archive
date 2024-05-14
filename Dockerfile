@@ -12,4 +12,6 @@ ARG component
 WORKDIR /eth
 RUN apt-get update && apt-get upgrade -y && apt-get install liburing1 ca-certificates -y
 COPY --from=builder "/eth/target/release/eth-archive-${component}" "./eth-archive-${component}"
-CMD ["/eth/${component}"]
+COPY ./argument-${component}.txt .
+ENV component=${component}
+CMD /eth/eth-archive-${component} $(cat argument-${component}.txt)
